@@ -1,0 +1,48 @@
+mysql> CREATE DATABASE bookstore;
+ 
+mysql> USE bookstore;
+Database changed
+
+mysql> CREATE TABLE users (user_id INT PRIMARY KEY AUTO_INCREMENT,username VARCHAR(50) UNIQUE NOT NULL,password VARCHAR(50) NOT NULL,email VARCHAR(100) UNIQUE NOT NULL);
+
+
+mysql> CREATE TABLE books (book_id INT PRIMARY KEY AUTO_INCREMENT,title VARCHAR(100) NOT NULL,author VARCHAR(100) NOT NULL,price DECIMAL(10,2) NOT NULL,quantity INT NOT NULL,status ENUM('FOR_SALE', 'FOR_BUY', 'AVAILABLE') NOT NULL);
+
+mysql> CREATE TABLE purchases (purchase_id INT PRIMARY KEY AUTO_INCREMENT,user_id INT,book_id INT,purchase_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,quantity INT NOT NULL,total_price DECIMAL(10,2) NOT NULL,FOREIGN KEY (user_id) REFERENCES users(user_id),FOREIGN KEY (book_id) REFERENCES books(book_id));
+
+mysql> desc users;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| user_id  | int          | NO   | PRI | NULL    | auto_increment |
+| username | varchar(50)  | NO   | UNI | NULL    |                |
+| password | varchar(50)  | NO   |     | NULL    |                |
+| email    | varchar(100) | NO   | UNI | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+
+mysql> desc books;
++----------+----------------------------------------+------+-----+---------+----------------+
+| Field    | Type                                   | Null | Key | Default | Extra          |
++----------+----------------------------------------+------+-----+---------+----------------+
+| book_id  | int                                    | NO   | PRI | NULL    | auto_increment |
+| title    | varchar(100)                           | NO   |     | NULL    |                |
+| author   | varchar(100)                           | NO   |     | NULL    |                |
+| price    | decimal(10,2)                          | NO   |     | NULL    |                |
+| quantity | int                                    | NO   |     | NULL    |                |
+| status   | enum('FOR_SALE','FOR_BUY','AVAILABLE') | NO   |     | NULL    |                |
++----------+----------------------------------------+------+-----+---------+----------------+
+
+
+
+mysql> desc purchases;
++---------------+---------------+------+-----+-------------------+-------------------+
+| Field         | Type          | Null | Key | Default           | Extra             |
++---------------+---------------+------+-----+-------------------+-------------------+
+| purchase_id   | int           | NO   | PRI | NULL              | auto_increment    |
+| user_id       | int           | YES  | MUL | NULL              |                   |
+| book_id       | int           | YES  | MUL | NULL              |                   |
+| purchase_date | timestamp     | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
+| quantity      | int           | NO   |     | NULL              |                   |
+| total_price   | decimal(10,2) | NO   |     | NULL              |                   |
++---------------+---------------+------+-----+-------------------+-------------------+
+
